@@ -9,7 +9,7 @@
 2. 创建 go-micro 服务
 
    ``` go
-   service := micro.NewService(micro.Name("Resource_Service"))
+   service := micro.NewService(micro.Name("Service_Name"))
    ```
 
    
@@ -58,8 +58,8 @@
    ``` go
    //上传资源并获取资源URL
    req := rsc.ReqPutRscGetURL{
-   		Key: "test_video.mp4",	//资源名称,也是 S3 唯一资源标识 Key
-   		Body: bytes,						//资源 []byte
+     Key: "test_video.mp4",	//资源名称,也是 S3 唯一资源标识 Key
+     Body: bytes,						//资源 []byte
    }
    
    //RPC 异步调用
@@ -80,11 +80,7 @@
 ## 运维
 
 - 请在 conf/conf.toml 文件中设置数据库各项配置
-
 - 请在 conf/conf.toml 文件中设置为服务相关配置
-
 - 请在 conf/aws/config 文件中设置 S3 所在地区
-
 - 请在 conf/aws/credentials 文件中设置 S3 用户 aws_access_key_id 和 aws_secret_access_key
-
-  
+- 
