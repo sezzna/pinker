@@ -83,4 +83,3 @@
 - 请在 conf/conf.toml 文件中设置为服务相关配置
 - 请在 conf/aws/config 文件中设置 S3 所在地区
 - 请在 conf/aws/credentials 文件中设置 S3 用户 aws_access_key_id 和 aws_secret_access_key
-- 
