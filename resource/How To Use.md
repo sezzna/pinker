@@ -43,6 +43,7 @@
    	Body:     b,
    }
    
+   //注意:这里请考虑 RPC 参数传递和资源上传到 S3 的时间来合理的设置 CallOptions 超时时间
    var opt client.CallOption = func(o *client.CallOptions) {
    	o.RequestTimeout = time.Second * 30
    	o.DialTimeout = time.Second * 30
