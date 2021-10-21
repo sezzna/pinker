@@ -9,7 +9,7 @@
 2. 创建 go-micro 服务
 
    ``` go
-   service := micro.NewService(micro.Name("Service_Name"))
+   service := micro.NewService(micro.Name("Resource_Service"))
    ```
 
    
