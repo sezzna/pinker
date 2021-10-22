@@ -12,28 +12,33 @@
    service := micro.NewService(micro.Name("Service_Name"))
    ```
 
-   
-
 3. 新建资源服务客户端
 
    ``` go
    rsc := resource.NewRscService("Resource_Service", service.Client())
    ```
 
-   
-
 4. 订阅异步事件
 
    ``` go
-   micro.RegisterSubscriber("Event_RSC_GetRsc", service.Server(), EventHandler)
-   micro.RegisterSubscriber("Event_RSC_GetPresignedURL", service.Server(), EventHandler)
-   micro.RegisterSubscriber("Event_RSC_GetURL", service.Server(), EventHandler)
+   //异步上传事件
+   micro.RegisterSubscriber("Event_Resource_PutRsc", s.Server(), EventHandler)
    ```
 
-5. RPC 同步调用
+5. 编写事件处理函数
+
+   ```go
+   //异步上传事件处理
+   func EventHandler(ctx context.Context, e *resource.EventSyncPutRsc) error {
+   	//TODO
+   	return nil
+   }
+   ```
+
+6. RPC 同步调用
 
    ``` go
-   //上传资源
+   //同步上传资源
    b, err := ioutil.ReadFile("exmple.jpg")
    if err != nil {
    	return err
@@ -54,17 +59,23 @@
    }
    ```
 
-6. RPC 异步调用
+7. RPC 异步调用
 
    ``` go
-   //上传资源并获取资源URL
-   req := rsc.ReqPutRscGetURL{
-     Key: "test_video.mp4",	//资源名称,也是 S3 唯一资源标识 Key
-     Body: bytes,						//资源 []byte
+   //异步上传资源
+   b, err := ioutil.ReadFile("exmple.gif")
+   if err != nil {
+     return err
    }
-   
-   //RPC 异步调用
-   svc.SyncGetRscWithKey(context.TODO(), &req)
+   in := resource.ReqPutRscSync{
+   	UserID:   888888,
+   	FileName: "exmple.gif",
+   	Body:     b,
+   }
+   //注意,如果文件过大这里还是需要像同步上传一样设置超时事件
+   if _, err := rsc.PutRscSync(context.Background(), &in); err != nil {
+   	return
+   }
    ```
 
 ## 注意事项
@@ -84,3 +95,4 @@
 - 请在 conf/conf.toml 文件中设置为服务相关配置
 - 请在 conf/aws/config 文件中设置 S3 所在地区
 - 请在 conf/aws/credentials 文件中设置 S3 用户 aws_access_key_id 和 aws_secret_access_key
+
